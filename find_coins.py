@@ -1,9 +1,10 @@
 import timeit
 
-coins = [50, 25, 10, 5, 2, 1]
-
-def find_coins_greedy(amount, coins=[1, 2, 5, 10, 25, 50]):
-    coins = sorted(coins)
+def find_coins_greedy(amount, coins=None):
+    if coins:
+        coins = sorted(coins)
+    else:
+        coins = [1, 2, 5, 10, 25, 50]
     result = {}
 
     while amount > 0 and coins:
@@ -15,7 +16,10 @@ def find_coins_greedy(amount, coins=[1, 2, 5, 10, 25, 50]):
 
     return result
 
-def find_min_coins(amount, coins=[1, 2, 5, 10, 25, 50]):
+def find_min_coins(amount, coins=None):
+    if not coins:
+        coins = [1, 2, 5, 10, 25, 50]
+    
     dp = [float('inf')] * (amount + 1)
     dp[0] = 0
     coin_used = [0] * (amount + 1)
@@ -68,10 +72,10 @@ for amount in amounts:
     print(f"Жадібний алгоритм: {greedy_result}")
     print(f"Динамічне програмування: {dynamic_result}")
 
-    greedy_time = timeit.timeit(lambda money_amount=amount, denomination=coins: find_coins_greedy(money_amount, coins), number=n)
+    greedy_time = timeit.timeit(lambda money_amount=amount, denomination=coins: find_coins_greedy(money_amount, denomination), number=n)
     print(f"Жадібний алгоритм: {greedy_time}")
 
-    dynamic_time = timeit.timeit(lambda money_amount=amount, denomination=coins: find_min_coins(money_amount, coins), number=n)
+    dynamic_time = timeit.timeit(lambda money_amount=amount, denomination=coins: find_min_coins(money_amount, denomination), number=n)
     print(f"Динамічне програмування: {dynamic_time}")
 
     print()
